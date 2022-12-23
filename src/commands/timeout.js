@@ -1,6 +1,7 @@
-import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import embeds from "./../../config/embeds.json";
-import ms from "ms";
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const embeds = require("./../../config/embeds.json");
+const emojis = require("./../../config/emojis.json");
+const ms = require("ms");
 
 
 module.exports = {
@@ -35,21 +36,21 @@ const member = interaction.options.getUser('member');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
     
 if (!interaction.guild.members.cache.get(member.id))
-      return interaction.editReply({content: `Please Mention A Valid Member!`, ephemeral: true });
+      return interaction.editReply({content: `**Please Mention A Valid Member!**`, ephemeral: true });
 
     if (member.id === interaction.user.id)
-      return interaction.editReply({ content: "You Can't Timeout Your Self!", ephemeral: true });
+      return interaction.editReply({ content: "**You Can't Timeout Your Self!**", ephemeral: true });
 
     if (member.id === interaction.client.user.id)
-      return interaction.editReply({contest: `Please Don't Timeout Me ;-;`, ephemeral: true });
+      return interaction.editReply({contest: `**Please Don't Timeout Me ;-;**`, ephemeral: true });
 
 if (member.id === interaction.guild.ownerId)
-      return interaction.editReply({ content: `You Can't Timeout Owner Of Server!`, ephemeral: true });
+      return interaction.editReply({ content: `**You Can't Timeout Owner Of Server!**`, ephemeral: true });
 
 let user = interaction.guild.members.cache.get(member.id);
     
     if (!user.moderatable)
-      return interaction.editReply({ content: `I Can't Timeout That Member!`, ephemeral: true });
+      return interaction.editReply({ content: `**I Can't Timeout That Member!**`, ephemeral: true });
 
 let calculated_duration = ms(`${duration}`);
 
@@ -60,15 +61,15 @@ try {
         
       let embed = new EmbedBuilder()
         .setColor(embeds.color)
-        .setTitle(`Member Timeout!`)
-        .setDescription(`Moderator: ${interaction.user.tag}
+        .setTitle(`**Member Timeout!**`)
+        .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
 
-Timeout Member: ${member.tag}
+${emojis.timeout} Timeout Member: ${member.tag}
 
-Timeout Time: ${duration_word}
+${emojis.timeout} Timeout Time: ${duration_word}
 
-Reason: ${reason}
-`)
+${emojis.reason} Reason: ${reason}
+**`)
         .setFooter({text: `${embeds.footer}`})
         .setTimestamp();
 
@@ -76,7 +77,7 @@ interaction.editReply({embeds: [embed]})
   
       if (member.bot === false)
         user.send(
-          `You Have Got ${duration_word} Timeout From **${interaction.guild.name}** For ${reason}`
+          `**You Have Got ${duration_word} ${emojis.timeout} Timeout From **${interaction.guild.name}** For ${emojis.reason} ${reason}**`
         );
       
     } catch (error) {

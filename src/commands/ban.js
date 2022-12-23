@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import embeds from "./../../config/embeds.json";
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const embeds = require("./../../config/embeds.json");
+const emojis = require("./../../config/emojis.json");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,21 +21,21 @@ const member = interaction.options.getUser('member');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
 if (!interaction.guild.members.cache.get(member.id))
-      return interaction.editReply({content: `Please Mention A Valid Member!`, ephemeral: true });
+      return interaction.editReply({content: `**Please Mention A Valid Member!**`, ephemeral: true });
 
     if (member.id === interaction.user.id)
-      return interaction.editReply({ content: "You Can't Ban Your Self!", ephemeral: true });
+      return interaction.editReply({ content: "**You Can't Ban Your Self!**", ephemeral: true });
 
     if (member.id === interaction.client.user.id)
-      return interaction.editReply({contest: `Please Don't Ban Me ;-;`, ephemeral: true });
+      return interaction.editReply({contest: `**Please Don't Ban Me ;-;**`, ephemeral: true });
 
 if (member.id === interaction.guild.ownerId)
-      return interaction.editReply({ content: `You Can't Ban Owner Of Server!`, ephemeral: true });
+      return interaction.editReply({ content: `**You Can't Ban Owner Of Server!**`, ephemeral: true });
 
 let user = interaction.guild.members.cache.get(member.id);
     
     if (!user.kickable)
-      return interaction.editReply({ content: `I Can't Ban That Member!`, ephemeral: true });
+      return interaction.editReply({ content: `**I Can't Ban That Member!**`, ephemeral: true });
     
 try {
        setTimeout(function() {
@@ -43,13 +44,13 @@ try {
         
       let embed = new EmbedBuilder()
         .setColor(embeds.color)
-        .setTitle(`Member Banned!`)
-        .setDescription(`Moderator: ${interaction.user.tag}
+        .setTitle(`**Member Banned!**`)
+        .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
 
-Banned Member: ${member.tag}
+${emojis.banned} Banned Member: ${member.tag}
 
-Reason: ${reason}
-`)
+${emojis.reason} Reason: ${reason}
+**`)
         .setFooter({text: `${embeds.footer}`})
         .setTimestamp();
 
@@ -57,11 +58,11 @@ interaction.editReply({embeds: [embed]})
   
       if (member.bot === false)
         user.send(
-          `You Have Been Banned From **${interaction.guild.name}** For ${reason}`
+          `**You Have Been ${emojis.banned} Banned From **${interaction.guild.name}** For ${emojis.reason} ${reason}**`
         );
       
     } catch (error) {
-      return interaction.editReply({ content: `I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!`, ephemeral: true })
+      return interaction.editReply({ content: `**I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!**`, ephemeral: true })
   }
     
 	},

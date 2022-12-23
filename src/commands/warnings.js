@@ -1,6 +1,7 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import embeds from "./../../config/embeds.json";
-import { QuickDB } from "quick.db";
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { QuickDB } = require("quick.db");
+const embeds = require("./../../config/embeds.json");
+const emojis = require("./../../config/emojis.json");
 
 
 module.exports = {
@@ -20,15 +21,18 @@ let member = interaction.options.getUser('member');
 if (member === null) member = interaction.user;
 
     if (!interaction.guild.members.cache.get(member.id))
-      return message.channel.send(`Please Mention A Valid Member!`);
+      return message.channel.send(`**Please Mention A Valid Member!**`);
 
 const warning = db.table(`guild_${interaction.guild.id}`)
 
 let warnings = await warning.get(`${member.id}.warning`)
 
+if (warnings === undefined) warnings = 0;
+    
 let embed = new EmbedBuilder()
         .setColor(embeds.color)
-        .setDescription(`${member.tag}'s Warnings: ${warnings}`)
+  .setTitle(`**${member.tag}'s**`)
+        .setDescription(`**${emojis.warning} Warnings: ${warnings}**`)
         .setFooter({text: `${embeds.footer}`})
         .setTimestamp();
 

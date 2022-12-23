@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import embeds from "./../../config/embeds.json";
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const embeds = require("./../../config/embeds.json");
+const emojis = require("./../../config/emojis.json");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,21 +21,21 @@ const member = interaction.options.getUser('member');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
 if (!interaction.guild.members.cache.get(member.id))
-      return message.channel.send(`Please Mention A Valid Member!`);
+      return message.channel.send(`**Please Mention A Valid Member!**`);
 
     if (member.id === interaction.user.id)
-      return interaction.editReply({ content: "You Can't Kick Your Self!", ephemeral: true });
+      return interaction.editReply({ content: "**You Can't Kick Your Self!**", ephemeral: true });
 
     if (member.id === interaction.client.user.id)
-      return interaction.editReply({contest: `Please Don't Kick Me ;-;`, ephemeral: true });
+      return interaction.editReply({contest: `**Please Don't Kick Me ;-;**`, ephemeral: true });
 
 if (member.id === interaction.guild.ownerId)
-      return interaction.editReply({ content: `You Can't Kick Owner Of Server!`, ephemeral: true });
+      return interaction.editReply({ content: `**You Can't Kick Owner Of Server!**`, ephemeral: true });
 
 let user = interaction.guild.members.cache.get(member.id);
     
     if (!user.kickable)
-      return interaction.editReply({ content: `I Can't Kick That Member!`, ephemeral: true });
+      return interaction.editReply({ content: `**I Can't Kick That Member!**`, ephemeral: true });
     
 try {
        
@@ -42,13 +43,13 @@ try {
         
       let embed = new EmbedBuilder()
         .setColor(embeds.color)
-        .setTitle(`Member Kicked!`)
-        .setDescription(`Moderator: ${interaction.user.tag}
+        .setTitle(`**Member Kicked!**`)
+        .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
 
-Kicked Member: ${member.tag}
+${emojis.kicked} Kicked Member: ${member.tag}
 
-Reason: ${reason}
-`)
+${emojis.reason} Reason: ${reason}
+**`)
         .setFooter({text: `${embeds.footer}`})
         .setTimestamp();
 
@@ -56,7 +57,7 @@ interaction.editReply({embeds: [embed]})
   
       if (member.bot === false)
         user.send(
-          `You Have Been Kicked From **${interaction.guild.name}** For ${reason}`
+          `You Have Been ${emojis.kicked} Kicked From **${interaction.guild.name}** For ${emojis.reason} ${reason}`
         );
       
     } catch (error) {
