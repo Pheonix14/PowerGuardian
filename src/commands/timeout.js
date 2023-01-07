@@ -86,14 +86,14 @@ const settings = db.table(`guild_${interaction.guild.id}`);
 
 const modlogs = await settings.get(`modlogs`)
   
-if (modlogs !== undefined) {
+if (isNaN(modlogs)) return;
 
 const log = interaction.guild.channels.cache.get(modlogs)
   
-if (log === null) return;
+if (log === undefined) return;
 
 await log.send({embeds: [embed]})
-}
+
   
     } catch (error) {
       return interaction.editReply({ content: `I Can't Timeout That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!`, ephemeral: true })
