@@ -34,6 +34,8 @@ module.exports = {
 const member = interaction.options.getUser('member');
     let duration = interaction.options.getString('duration');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
+
+const db = require("./../database/connect.js");
     
 if (!interaction.guild.members.cache.get(member.id))
       return interaction.editReply({content: `**Please Mention A Valid Member!**`, ephemeral: true });
@@ -79,7 +81,20 @@ interaction.editReply({embeds: [embed]})
         user.send(
           `**You Have Got ${duration_word} ${emojis.timeout} Timeout From **${interaction.guild.name}** For ${emojis.reason} ${reason}**`
         );
-      
+
+const settings = db.table(`guild_${interaction.guild.id}`);
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (modlogs !== undefined) {
+
+const log = interaction.guild.channels.cache.get(modlogs)
+  
+if (log === null) return;
+
+await log.send({embeds: [embed]})
+}
+  
     } catch (error) {
       return interaction.editReply({ content: `I Can't Timeout That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!`, ephemeral: true })
   }

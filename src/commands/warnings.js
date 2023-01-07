@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
-const { QuickDB } = require("quick.db");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const embeds = require("./../../config/embeds.json");
 const emojis = require("./../../config/emojis.json");
 
@@ -14,7 +13,7 @@ module.exports = {
   .setDMPermission(false),
 	async execute(interaction, client) {
 
-const db = new QuickDB({ filePath: './src/database/database.sqlite' });
+const db = require("./../database/connect.js");
     
 let member = interaction.options.getUser('member');
 

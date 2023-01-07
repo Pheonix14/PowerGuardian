@@ -37,16 +37,16 @@ client.commands.set(command.data.name, command);
   console.log(`➥ Loaded ${command.data.name} Command`)
 }
 
+console.log(`Loading Handlers...`);
 ["commands"]
     .filter(Boolean)
     .forEach(h => {
-      console.log(`Loading Handlers...`);
         require(`./handlers/${h}`)(client);
       console.log(`➥ Loaded ${h} Handler`);
     });
 
-
-console.log(`Logging Into To The Bot...`)
-
+console.log(`Logging Into To The Bot...`);
 
 client.login(token);
+
+require("./database/connect.js")

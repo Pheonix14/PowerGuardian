@@ -17,6 +17,8 @@ module.exports = {
   .setDMPermission(false),
 	async execute(interaction, client) {
 
+const db = require("./../database/connect.js");
+    
 const member = interaction.options.getUser('member');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
@@ -60,9 +62,22 @@ interaction.editReply({embeds: [embed]})
         user.send(
           `**You Have Been ${emojis.banned} Banned From **${interaction.guild.name}** For ${emojis.reason} ${reason}**`
         );
-      
+
+const settings = db.table(`guild_${interaction.guild.id}`);
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (modlogs !== undefined) {
+
+const log = interaction.guild.channels.cache.get(modlogs)
+  
+if (log === null) return;
+
+await log.send({embeds: [embed]})
+}
+
     } catch (error) {
-      return interaction.editReply({ content: `**I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!**`, ephemeral: true })
+ interaction.editReply({ content: `**I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!**`, ephemeral: true })
   }
     
 	},

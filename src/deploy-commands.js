@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 const commands = [];
 
-const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts'));
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
 
 for (const file of commandFiles) {

@@ -16,6 +16,8 @@ module.exports = {
 
 		const user_id = interaction.options.getString('id');
 
+const db = require("./../database/connect.js");
+    
 if (isNaN(user_id)) return interaction.editReply({ content: `**Please Give Me Valid ID!**`, ephemeral: true});
 
 if (user_id === interaction.user.id) return interaction.editReply({ content: `**You Are Already Unban!**`, ephemeral: true});
@@ -57,7 +59,21 @@ interaction.editReply({embeds: [embed]})
         member.send(
           `**You Have Been ${emojis.unban} Unbanned From ${interaction.guild.name}**`
         );
-      
+
+const settings = db.table(`guild_${interaction.guild.id}`);
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (modlogs !== undefined) {
+
+const log = interaction.guild.channels.cache.get(modlogs)
+
+  
+if (log === null) return;
+
+await log.send({embeds: [embed]})
+}
+  
     } catch (error) {
       return interaction.editReply({ content: `**I Can't Unban That Member Maybe Member Is Not Banned Or Some Error!**`, ephemeral: true })
 }

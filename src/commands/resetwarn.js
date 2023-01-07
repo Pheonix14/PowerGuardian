@@ -16,7 +16,7 @@ module.exports = {
   .setDMPermission(false),
 	async execute(interaction, client) {
 
-const db = new QuickDB({ filePath: './src/database/database.sqlite' });
+const db = require("./../database/connect.js");
     
 let member = interaction.options.getUser('member');
 
@@ -46,6 +46,21 @@ ${emojis.warning} Warning Reset Member: ${member.tag}
         .setTimestamp();
 
 interaction.editReply({embeds: [embed]})
+
+const settings = db.table(`guild_${interaction.guild.id}`);
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (modlogs !== undefined) {
+
+const log = interaction.guild.channels.cache.get(modlogs)
+
+  
+if (log === null) return;
+
+await log.send({embeds: [embed]})
+}
+  
 }
   },
 };

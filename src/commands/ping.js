@@ -24,7 +24,7 @@ let cpuLol;
  const embed = new EmbedBuilder()
   .setColor(embeds.color)
     .setTitle(`**TrollMod Status:**`)
-.setDescription(`**${emojis.online} Shard [0]:
+.setDescription(`**${emojis.online} Shard [${interaction.guild.shardId}]:
 
 ${emojis.latency} Latency: ${interaction.client.ws.ping}ms
 

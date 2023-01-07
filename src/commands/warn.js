@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
-const { QuickDB } = require("quick.db");
 const embeds = require("./../../config/embeds.json");
 const emojis = require("./../../config/emojis.json");
 
@@ -18,7 +17,7 @@ module.exports = {
   .setDMPermission(false),
 	async execute(interaction, client) {
     
-const db = new QuickDB({ filePath: './src/database/database.sqlite' });
+const db = require("./../database/connect.js");
     
 const member = interaction.options.getUser('member');
 		const reason = interaction.options.getString('reason') ?? 'No reason provided';
@@ -30,7 +29,7 @@ const member = interaction.options.getUser('member');
       return interaction.editReply({ content: "**You Can't Kick Your Self!**", ephemeral: true });
 
     if (member.id === interaction.client.user.id)
-      return interaction.editReply({contest: `**Please Don't Warn Me ;-;**`, ephemeral: true });
+      return interaction.editReply({content: `**Please Don't Warn Me ;-;**`, ephemeral: true });
 
 if (member.id === interaction.guild.ownerId)
       return interaction.editReply({ content: `**You Can't Warn Owner Of Server!**`, ephemeral: true });
@@ -44,7 +43,7 @@ const warning = db.table(`guild_${interaction.guild.id}`)
 
 await warning.add(`${user.id}.warning`, 1)
 
-let embed = new EmbedBuilder()
+const embed = new EmbedBuilder()
         .setColor(embeds.color)
         .setTitle(`**Member Warned!**`)
         .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
@@ -57,6 +56,19 @@ ${emojis.reason} Reason: ${reason}
         .setTimestamp();
 
 interaction.editReply({embeds: [embed]})
+
+const settings = db.table(`guild_${interaction.guild.id}`)
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (modlogs !== undefined) {
+
+const log = interaction.guild.channels.cache.get(modlogs)
+  
+if (log === null) return;
+
+await log.send({embeds: [embed]})
+}
     
   },
 };
