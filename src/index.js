@@ -1,4 +1,4 @@
-const { token } = require("./../config/config.json");
+const config = require("./../config/config.json");
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -38,7 +38,7 @@ client.commands.set(command.data.name, command);
 }
 
 console.log(`Loading Handlers...`);
-["commands"]
+["commands", config.settings.antiCrash ? "antiCrash" : null]
     .filter(Boolean)
     .forEach(h => {
         require(`./handlers/${h}`)(client);
@@ -47,6 +47,7 @@ console.log(`Loading Handlers...`);
 
 console.log(`Logging Into To The Bot...`);
 
-client.login(token);
+client.login(config.bot.token);
 
+console.log('Connecting To Database...')
 require("./database/connect.js")

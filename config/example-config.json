@@ -1,5 +1,19 @@
 {
-  "token": "",
-  "clientId": "",
-	"guildId": ""
+  "bot":{
+   "token": "",
+   "clientId": "",
+	 "guildId": ""
+  },
+  "settings":{
+   "mysql": false,
+   "antiCrash": false,
+   "maintenance": true,
+   "admin": [""]
+  },
+  "mysql":{
+   "host": "",
+   "user": "",
+   "password": "",
+   "database": ""
+ }
 }
