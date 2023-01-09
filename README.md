@@ -12,12 +12,12 @@ A Powerful Open-source Discord Moderation Bot
 - This Project Is Not Completed Yet So Many Features Is Missing
 ## Invite TrollMod
 
-[Invite Official Version Of TrollMod On Your Discord Server For Dree](https://trollmod.ml/)
+[Invite Official Version Of TrollMod On Your Discord Server For Free](https://trollmod.ml/)
 
 
 ## Features
 
-- Besic Moderation Commands
+- Basic Moderation Commands
 - Sync With MySQL Database
 - Slash Commands
 - Logging System
