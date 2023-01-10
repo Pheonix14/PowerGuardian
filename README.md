@@ -12,7 +12,7 @@ A Powerful Open-source Discord Moderation Bot
 - This Project Is Not Completed Yet So Many Features Is Missing
 ## Invite TrollMod
 
-[Invite Official Version Of TrollMod On Your Discord Server For Free](https://trollmod.ml/)
+Currently TrollMod Under Development Stage It's Available For Only Few Discord Servers Like [TrollBot Support](https://discord.gg/MEbJFGwu7u), [TrollBot Community](https://discord.gg/Bt7HfjWJHj) And [Groudon Valley](https://discord.gg/pCraqR3pnT). It Wil Available For Everyone After Full Release. For Now You Can Self Host The Bot.
 
 
 ## Features
