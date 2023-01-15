@@ -8,6 +8,7 @@
    "mysql": false,
    "antiCrash": false,
    "maintenance": true,
+   "globalCommands": false,
    "admin": [""]
   },
   "mysql":{

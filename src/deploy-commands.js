@@ -19,13 +19,27 @@ const rest = new REST({ version: '10' }).setToken(config.bot.token);
 (async () => {
 	try {
 		console.log(`Started Refreshing ${commands.length} Application (/) Commands...`);
-		
+
+if(config.settings.globalCommands) {
+    
 		const data = await rest.put(
-			Routes.applicationGuildCommands(config.bot.clientId, config.bot.guildId),
+			Routes.applicationCommands(config.bot.clientId),
 			{ body: commands },
 		);
 
-		console.log(`➥ Successfully Reloaded ${data.length} Application (/) Commands.`);
+console.log(`➥ Successfully Reloaded ${data.length} Application (/) Commands.`);
+  
+} else {
+
+const data = await rest.put(
+			Routes.applicationGuildCommands( config.bot.clientId, config.bot.guildId),
+			{ body: commands },
+		);
+
+  console.log(`➥ Successfully Reloaded ${data.length} Application (/) Commands.`);
+  
+}
+
 	} catch (error) {
 	
 		console.error(error);
