@@ -7,13 +7,9 @@
 A Powerful Open-source Discord Moderation Bot
 ㅤ
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-## ⚠️ Warning ⚠️
+## Acknowledgements
 
-- This Project Is Not Completed Yet So Many Features Is Missing
-## Invite TrollMod
-
-Currently TrollMod Under Development Stage It's Available For Only Few Discord Servers Like [TrollBot Support](https://discord.gg/MEbJFGwu7u), [TrollBot Community](https://discord.gg/Bt7HfjWJHj) And [Groudon Valley](https://discord.gg/pCraqR3pnT). It Wil Available For Everyone After Full Release. For Now You Can Self Host The Bot.
-
+- ⚠️ This project has been dropped by us due to a lack of time and resources. It will not receive any further updates. It has some bugs and issues as well. Please note that you are hosting it at your own risk.
 
 ## Features
 
@@ -21,17 +17,6 @@ Currently TrollMod Under Development Stage It's Available For Only Few Discord S
 - Sync With MySQL Database
 - Slash Commands
 - Logging System
-
-
-## Roadmap
-
-- Role Management Commands
-
-- Channel Management Commands
-
-- Select Menu Roles
-
-- Utility Commands
 
 ## Requirements
 
@@ -68,17 +53,6 @@ Currently TrollMod Under Development Stage It's Available For Only Few Discord S
 ```bash
 npm run deploy
 ```
-
-
-## Contributing
-
-Contributions Are Always Welcome!
-
-Feel Free To Drop Pull Request And Report Issue
-## Support
-
-For Support, [Discord Server](https://discord.gg/dZz2nyjNCZ)
-
 
 ## License
 
