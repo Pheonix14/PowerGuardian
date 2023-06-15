@@ -5,7 +5,8 @@ const emojis = require("./../../config/emojis.json");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('serverinfo')
-		.setDescription('Some information about the server'),
+		.setDescription('Some information about the server')
+  .setDMPermission(false),
 	async execute(interaction, client) {
 
 const guild = interaction.client.guilds.cache.get(interaction.guildId);
@@ -39,7 +40,8 @@ const guild = interaction.client.guilds.cache.get(interaction.guildId);
 
 const embed = new EmbedBuilder()
   .setColor(embeds.color)
-    .setTitle(`**${guild.name}'s Info**`)
+    .setTitle(`**Server's Info**`)
+  .setThumbnail(guild.iconURL())
 .setDescription(`**${emojis.server} Server Name: ${guild.name}
 
 ${emojis.owner} Owner: ${ownerTag}
