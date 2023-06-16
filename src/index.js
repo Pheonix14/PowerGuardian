@@ -38,33 +38,13 @@ client.commands.set(command.data.name, command);
 }
 
 console.log(`Loading Handlers...`);
-["commands", config.settings.antiCrash ? "antiCrash" : null]
+["commands", "alert", config.settings.antiCrash ? "antiCrash" : null]
     .filter(Boolean)
     .forEach(h => {
         require(`./handlers/${h}`)(client);
       console.log(`➥ Loaded ${h} Handler`);
     });
 
-client.on('guildCreate', (guild) => {
-  const alertChannel = guild.channels.cache.get(config.bot.joinId);
-  if (alertChannel && alertChannel.isText()) {
-    alertChannel.send(`I've joined the server: ${guild.name}`);
-  }
-});
-
-client.on('guildDelete', (guild) => {
-  const alertChannel = guild.channels.cache.get(config.bot.leftId);
-  if (alertChannel && alertChannel.isText()) {
-    alertChannel.send(`I've left the server: ${guild.name}`);
-  }
-});
-
-client.on('error', (error) => {
-  const alertChannel = client.channels.cache.get(config.bot.errorId);
-  if (alertChannel && alertChannel.isText()) {
-    alertChannel.send(`An error occurred: ${error.message}`);
-  }
-});
 
 console.log(`Logging Into To The Bot...`);
 
