@@ -3,7 +3,8 @@ const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
 });
 
 // Events Loader
@@ -12,13 +13,13 @@ const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'
 console.log(`Loading Events...`);
 
 for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args))
-	}
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args))
+  }
   console.log(`➥ Loaded ${event.name} Event`)
 }
 
@@ -31,19 +32,19 @@ const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
-client.commands.set(command.data.name, command);
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  client.commands.set(command.data.name, command);
   console.log(`➥ Loaded ${command.data.name} Command`)
 }
 
 console.log(`Loading Handlers...`);
 ["commands", "alert", config.settings.antiCrash ? "antiCrash" : null]
-    .filter(Boolean)
-    .forEach(h => {
-        require(`./handlers/${h}`)(client);
-      console.log(`➥ Loaded ${h} Handler`);
-    });
+  .filter(Boolean)
+  .forEach(h => {
+    require(`./handlers/${h}`)(client);
+    console.log(`➥ Loaded ${h} Handler`);
+  });
 
 
 console.log(`Logging Into To The Bot...`);

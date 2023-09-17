@@ -13,6 +13,8 @@ module.exports = {
   .setDMPermission(false),
 	async execute(interaction, client) {
 
+const db = require("./../database/connect.js");
+    
 const channel = interaction.options.getChannel('channel') || interaction.channel;
 
 const everyoneRole = interaction.guild.roles.cache.find(role => role.name === '@everyone');
@@ -24,17 +26,33 @@ if (!canSendMessages) {
       return;
     }
 
-const embed = new EmbedBuilder()
-  .setColor(embeds.color)
-.setDescription(`${channel} Is Locked Successfully ${emojis.lock}`)
-  .setFooter({text: `${embeds.footer}`})
-   .setTimestamp();
     
     try {
       await channel.permissionOverwrites.create(interaction.guild.roles.everyone, { SendMessages: false });
-      await interaction.editReply({embeds: [embed]});
+      
+                let embed = new EmbedBuilder()
+        .setColor(embeds.color)
+        .setTitle(`**Channel Locked**`)
+        .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
+
+${emojis.channel} Channel: ${channel}**`)
+        .setFooter({text: `${embeds.footer}`})
+        .setTimestamp(); interaction.editReply({embeds: [embed]});
+      
+const settings = db.table(`guild_${interaction.guild.id}`);
+
+const modlogs = await settings.get(`modlogs`)
+  
+if (isNaN(modlogs)) return;
+
+const log = interaction.guild.channels.cache.get(modlogs)
+
+  
+if (log === undefined) return;
+
+ await log.send({embeds: [embed]})
     } catch (error) {
-      console.error('Failed to lock channel:', error);
+      console.error(error);
       await interaction.editReply('An error occurred while locking the channel.');
     }
   },
