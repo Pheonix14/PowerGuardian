@@ -10,6 +10,25 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction, client) {
+
+const db = require("./../database/connect.js");
+
+// Function to estimate the ping to the Quick.db database
+async function estimateDatabasePing() {
+  const start = Date.now();
+  try {
+    // Execute a simple operation, like fetching a value
+    await db.get('example_key');
+    const end = Date.now();
+    const ping = end - start;
+    return ping;
+  } catch (error) {
+    console.error('Error estimating database ping:', error);
+    return -1; // Return -1 or another value to indicate an error
+  }
+}
+
+// Call the function to estimate the database ping and use it outside
     
 let cpuLol;
   cpuStat.usagePercent(function(err, percent ) {
@@ -17,16 +36,22 @@ let cpuLol;
           return console.log(err);
       }
 
+estimateDatabasePing()
+  .then(ping => {
+    if (ping !== -1) {
+    
     const uptime = interaction.client.uptime;
-
+    
   let uptime_calc = ms(uptime);
     
  const embed = new EmbedBuilder()
   .setColor(embeds.color)
-    .setTitle(`**TrollMod Status:**`)
+    .setTitle(`**PowerGuardian Status:**`)
 .setDescription(`**${emojis.online} Shard [${interaction.guild.shardId}]:
 
-${emojis.latency} Latency: ${interaction.client.ws.ping}ms
+${emojis.latency} Websocket Latency: ${interaction.client.ws.ping}ms
+
+${emojis.database} Database Latency: ${ping}ms
 
 ${emojis.uptime} Uptime: ${uptime_calc}
 
@@ -38,6 +63,11 @@ ${emojis.cpu} CPU Usage: ${percent.toFixed(2)}%**`)
 
 	return interaction.editReply({embeds: [embed] });
 
+} else {
+      console.error('Database ping estimation failed.');
+    }
+  });
+      
    })
     
 	},

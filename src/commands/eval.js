@@ -12,7 +12,9 @@ module.exports = {
 			.setDescription('The JavaScript eval code').setRequired(true)),
 	async execute(interaction, client) {
 
- if(!config.bot.settings.includes(interaction.user.id)) return interaction.reply(`This Command Not Made For Public. It's only for bot's admins so don't use it again`);   
+const db = require("./../database/connect.js");
+    
+ if(!config.settings.admin.includes(interaction.user.id)) return interaction.reply(`This Command Not Made For Public. It's only for bot's admins so don't use it again`);   
 
 	    const code = interaction.options.getString('eval');
 	    

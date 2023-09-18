@@ -33,7 +33,7 @@ await settings.set(`modlogs`, channel.id)
 
 const embed = new EmbedBuilder()
   .setColor(embeds.color)
-.setDescription(`${emojis.tic} Successfully Set ModLogs Channel: ${channel}`)
+.setDescription(`**${emojis.tic} Successfully Set ModLogs Channel: ${channel}**`)
   .setFooter({text: `${embeds.footer}`})
    .setTimestamp();
 
@@ -47,7 +47,7 @@ await settings.set(`modlogs`, '')
 
 const embed = new EmbedBuilder()
   .setColor(embeds.color)
-.setDescription(`${emojis.tic} Successfully Disabled ModLogs`)
+.setDescription(`**${emojis.tic} Successfully Disabled ModLogs**`)
   .setFooter({text: `${embeds.footer}`})
    .setTimestamp();
 
