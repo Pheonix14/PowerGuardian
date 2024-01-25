@@ -2,7 +2,9 @@
   "bot":{
    "token": "",
    "clientId": "",
-	 "guildId": ""
+	 "guildId": "",
+   "WEATHERSTACK_API_KEY": "",
+   "GEMINI_API_KEY": ""
   },
   "settings":{
    "mysql": false,
