@@ -1,22 +1,25 @@
 {
-  "bot":{
-   "token": "",
-   "clientId": "",
-	 "guildId": "",
-   "WEATHERSTACK_API_KEY": "",
-   "GEMINI_API_KEY": ""
+  "bot": {
+    "token": "",
+    "clientId": "",
+    "guildId": "",
+    "WEATHERSTACK_API_KEY": "",
+    "GEMINI_API_KEY": "",
+    "errorId": "",
+    "leftId": "",
+    "joinId": "" 
   },
-  "settings":{
-   "mysql": false,
-   "antiCrash": false,
-   "maintenance": true,
-   "globalCommands": false,
-   "admin": [""]
+  "settings": {
+    "mysql": false,
+    "antiCrash": false,
+    "maintenance": true,
+    "globalCommands": false,
+    "admin": [""]
   },
-  "mysql":{
-   "host": "",
-   "user": "",
-   "password": "",
-   "database": ""
- }
+  "mysql": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": ""
+  }
 }

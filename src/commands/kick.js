@@ -1,84 +1,112 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+} = require("discord.js");
 const embeds = require("./../../config/embeds.json");
 const emojis = require("./../../config/emojis.json");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('kick')
-		.setDescription('Kick A Member From The Server')
-.addUserOption(option =>
-		option.setName('member')
-			.setDescription('choose a member to kick')
-.setRequired(true))
-.addStringOption(option =>
-		option.setName('reason')
-			.setDescription('A Reason For Getting Kick'))
-.setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
-  .setDMPermission(false),
-	async execute(interaction, client) {
+  data: new SlashCommandBuilder()
+    .setName("kick")
+    .setDescription("Kick A Member From The Server")
+    .addUserOption((option) =>
+      option
+        .setName("member")
+        .setDescription("choose a member to kick")
+        .setRequired(true),
+    )
+    .addStringOption((option) =>
+      option.setName("reason").setDescription("A Reason For Getting Kick"),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
+    .setDMPermission(false),
+  async execute(interaction, client) {
+    const db = require("./../database/connect.js");
 
-const db = require("./../database/connect.js");
-    
-const member = interaction.options.getUser('member');
-		const reason = interaction.options.getString('reason') ?? 'No reason provided';
+    const member = interaction.options.getUser("member");
+    const reason =
+      interaction.options.getString("reason") ?? "No reason provided";
 
-if (!interaction.guild.members.cache.get(member.id))
+    if (!interaction.guild.members.cache.get(member.id))
       return message.channel.send(`**Please Mention A Valid Member!**`);
 
     if (member.id === interaction.user.id)
-      return interaction.editReply({ content: "**You Can't Kick Your Self!**", ephemeral: true });
+      return interaction.editReply({
+        content: "**You Can't Kick Your Self!**",
+        ephemeral: true,
+      });
 
     if (member.id === interaction.client.user.id)
-      return interaction.editReply({contest: `**Please Don't Kick Me ;-;**`, ephemeral: true });
+      return interaction.editReply({
+        contest: `**Please Don't Kick Me ;-;**`,
+        ephemeral: true,
+      });
 
-if (member.id === interaction.guild.ownerId)
-      return interaction.editReply({ content: `**You Can't Kick Owner Of Server!**`, ephemeral: true });
+    if (member.id === interaction.guild.ownerId)
+      return interaction.editReply({
+        content: `**You Can't Kick Owner Of Server!**`,
+        ephemeral: true,
+      });
 
-let user = interaction.guild.members.cache.get(member.id);
-    
+    let user = interaction.guild.members.cache.get(member.id);
+
     if (!user.kickable)
-      return interaction.editReply({ content: `**I Can't Kick That Member!**`, ephemeral: true });
-    
-try {
-       
-        user.kick({ reason: `${reason}` });
-        
+      return interaction.editReply({
+        content: `**I Can't Kick That Member!**`,
+        ephemeral: true,
+      });
+
+    try {
+      user.kick({ reason: `${reason}` });
+
       let embed = new EmbedBuilder()
         .setColor(embeds.color)
         .setTitle(`**Member Kicked!**`)
-        .setDescription(`**${emojis.mod} Moderator: ${interaction.user.tag}
+        .addFields(
+          {
+            name: `${emojis.mod} Moderator:`,
+            value: `${interaction.user.tag}`,
+            inline: false,
+          },
+          {
+            name: `${emojis.kicked} Kicked Member: `,
+            value: `${member.tag}`,
+            inline: false,
+          },
+          {
+            name: `${emojis.reason} Reason:`,
+            value: `${reason}`,
+            inline: false,
+          },
+        )
 
-${emojis.kicked} Kicked Member: ${member.tag}
-
-${emojis.reason} Reason: ${reason}
-**`)
-        .setFooter({text: `${embeds.footer}`})
+        .setFooter({ text: `${embeds.footer}` })
         .setTimestamp();
 
-interaction.editReply({embeds: [embed]})
-  
+      interaction.editReply({ embeds: [embed] });
+
       if (member.bot === false)
         user.send(
-          `You Have Been ${emojis.kicked} Kicked From **${interaction.guild.name}** For ${emojis.reason} ${reason}`
+          `You Have Been ${emojis.kicked} Kicked From **${interaction.guild.name}** For ${emojis.reason} ${reason}`,
         );
 
-const settings = db.table(`guild_${interaction.guild.id}`);
+      const settings = db.table(`guild_${interaction.guild.id}`);
 
-const modlogs = await settings.get(`modlogs`)
-  
-if (isNaN(modlogs)) return;
+      const modlogs = await settings.get(`modlogs`);
 
-const log = interaction.guild.channels.cache.get(modlogs)
+      if (isNaN(modlogs)) return;
 
-  
-if (log === undefined) return;
+      const log = interaction.guild.channels.cache.get(modlogs);
 
-await log.send({embeds: [embed]});
+      if (log === undefined) return;
 
-  
+      await log.send({ embeds: [embed] });
     } catch (error) {
-      return interaction.editReply({ content: `I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!`, ephemeral: true })
-  }
-    
-	},
+      return interaction.editReply({
+        content: `I Can't Kick That Member Maybe Member Has Higher Role Than Me & My Role Is Lower Than Member!`,
+        ephemeral: true,
+      });
+    }
+  },
 };
