@@ -45,58 +45,29 @@ module.exports = {
       .setColor(embeds.color)
       .setTitle(`**Server's Info**`)
       .setThumbnail(guild.iconURL())
-      .addFields(
-        {
-          name: `${emojis.server} Server Name:`,
-          value: `${guild.name}`,
-          inline: false,
-        },
-        { name: `${emojis.owner} Owner:`, value: `${ownerTag}`, inline: false },
-        {
-          name: `${emojis.member} Total Members:`,
-          value: `${totalMembers}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.bot} Bot Count:`,
-          value: `${botCount}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.member} Online Members:`,
-          value: `${onlineMembers}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.channel} Text Channels:`,
-          value: `${textChannels}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.voice} Voice Channels:`,
-          value: `${voiceChannels}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.role} Role Count:`,
-          value: `${roleCount}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.verify} Verification Level:`,
-          value: `${verificationLevel}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.community} Community Server:`,
-          value: `${communityIndicator}`,
-          inline: false,
-        },
-        {
-          name: `${emojis.birthday} Server Creation Date:`,
-          value: `${serverCreationDate}`,
-          inline: false,
-        },
+      .setDescription(
+        `**${emojis.server} Server Name: ${guild.name}
+
+${emojis.owner} Owner: ${ownerTag}
+
+${emojis.member} Total Members: ${totalMembers}
+
+${emojis.bot} Bot Count: ${botCount}
+
+${emojis.member} Online Members: ${onlineMembers}
+
+${emojis.channel} Text Channels: ${textChannels}
+
+${emojis.voice} Voice Channels: ${voiceChannels}
+
+${emojis.role} Role Count: ${roleCount}
+
+${emojis.verify} Verification Level: ${verificationLevel}
+
+${emojis.community} Community Server: ${communityIndicator}
+
+${emojis.birthday} Server Creation Date: ${serverCreationDate}
+**`,
       )
       .setFooter({ text: `${embeds.footer}` })
       .setTimestamp();
