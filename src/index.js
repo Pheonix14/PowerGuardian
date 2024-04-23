@@ -50,6 +50,14 @@ console.log(`Loading Handlers...`);
     console.log(`➥ Loaded ${h} Handler`);
   });
 
+console.log(`Loading Plugins...`);
+["securegate"]
+  .filter(Boolean)
+  .forEach((h) => {
+    require(`./plugins/${h}`)(client);
+    console.log(`➥ Loaded ${h} Plugin`);
+  });
+
 console.log(`Logging Into To The Bot...`);
 
 client.login(config.bot.token);

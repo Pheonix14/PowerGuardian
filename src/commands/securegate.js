@@ -8,20 +8,15 @@ const emojis = require("./../../config/emojis.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("modlogs")
-    .setDescription(`Configure modlogs channel`)
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("set")
-        .setDescription("Set a channel for modlogs")
-        .addChannelOption((option) =>
-          option
-            .setName("logging_channel")
-            .setDescription("channel for the modlogs"),
-        ),
+    .setName("securegate")
+    .setDescription(
+      `When a user joins, the bot will take action if they are suspicious`,
     )
     .addSubcommand((subcommand) =>
-      subcommand.setName("disable").setDescription("Disable Modlogs"),
+      subcommand.setName("enable").setDescription("Enable securegate plugin"),
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("disable").setDescription("Disable securegate plugin"),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setDMPermission(false),
@@ -30,15 +25,19 @@ module.exports = {
 
     const settings = db.table(`guild_${interaction.guild.id}`);
 
-    if (interaction.options.getSubcommand() === "set") {
-      const channel = interaction.options.getChannel("logging_channel");
-
-      await settings.set(`modlogs`, channel.id);
+    if (interaction.options.getSubcommand() === "enable") {
+      await settings.set(`securegate`, "enabled");
 
       const embed = new EmbedBuilder()
         .setColor(embeds.color)
         .setDescription(
-          `**${emojis.tic} The ModLogs channel has been successfully configured in the ${channel}**`,
+          `**${emojis.tic} You have successfully enabled the SecureGate plugin. Please note that from now on, when a member joins, it will check and kick them if:
+
+- The member is unverified.
+- The member has an invite link in their username.
+- The member's account age is less than 5 days.
+- The member is an unverified bot.
+- The member joined and obtained admin permissions within 1 minute.**`,
         )
         .setFooter({ text: `${embeds.footer}` })
         .setTimestamp();
@@ -47,11 +46,13 @@ module.exports = {
     }
 
     if (interaction.options.getSubcommand() === "disable") {
-      await settings.set(`modlogs`, "");
+      await settings.set(`securegate`, "disabled");
 
       const embed = new EmbedBuilder()
         .setColor(embeds.color)
-        .setDescription(`**${emojis.tic} The Modlogs feature has been successfully disabled.**`)
+        .setDescription(
+          `**${emojis.tic} The SecureGate Plugin has been successfully disabled.**`,
+        )
         .setFooter({ text: `${embeds.footer}` })
         .setTimestamp();
 

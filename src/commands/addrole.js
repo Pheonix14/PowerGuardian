@@ -52,7 +52,7 @@ module.exports = {
           },
           {
             name: `${emojis.member} Member:`,
-            value: `${role}`,
+            value: `${user}`,
             inline: false,
           },
         )
